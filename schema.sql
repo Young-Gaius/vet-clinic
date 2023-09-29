@@ -38,3 +38,33 @@ DROP  COLUMN  species;
 --add foreign key to animals table
 ALTER TABLE animals ADD COLUMN species_id INT REFERENCES species(id);
 ALTER TABLE animals ADD COLUMN owner_id INT REFERENCES owners(id);
+
+-- vet table
+CREATE TABLE vets(
+  id  INTEGER GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR(50),
+  age INT,
+  date_of_graduation DATE,
+  PRIMARY KEY(id)
+)
+
+--  relationship table between vets and species
+CREATE TABLE specializations(
+   id  INTEGER GENERATED ALWAYS AS IDENTITY,
+  species_id INT,
+  vet_id INT,
+  PRIMARY KEY(id),
+  FOREIGN KEY(species_id) REFERENCES species(id),
+  FOREIGN KEY(vet_id) REFERENCES vets(id)
+)
+
+--  relationship table between vets and animals
+CREATE TABLE visits(
+   id  INTEGER GENERATED ALWAYS AS IDENTITY,
+  animal_id INT,
+  vet_id INT,
+   visit_date DATE,
+  PRIMARY KEY(id),
+  FOREIGN KEY(animal_id) REFERENCES animals(id),
+  FOREIGN KEY(vet_id) REFERENCES vets(id)
+)
